@@ -4,7 +4,7 @@
 
 ## API Use Documentation
 
-See the file located at `docs/API.md`
+See the file located at [docs/API.md](docs/API.md)
 
 ---
 

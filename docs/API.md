@@ -190,3 +190,29 @@ Response Fail:
   "status": 400
 }
 ```
+
+Status `400 Bad Request`
+
+## Global Error Handling
+
+General response:
+```
+{
+    "error": "Internal Server Error",
+    "message": "Some information"
+}
+```
+
+Status `500 Internal Server Error`
+
+Incorrect data given for a parameter; response:
+
+```
+{
+    "error": "Internal Server Error",
+    "message": "Failed to convert value of type 'java.lang.String' to required type 'java.util.UUID'; Invalid UUID string: 1",
+    "cause": "transactionID"
+}
+```
+
+Status `500 Internal Server Error`
