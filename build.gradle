@@ -1,0 +1,66 @@
+plugins {
+	id 'java'
+	id 'org.springframework.boot' version '3.3.2'
+	id 'io.spring.dependency-management' version '1.1.6'
+	id 'org.hidetake.swagger.generator' version '2.19.2'
+}
+
+group = 'com.openpayd'
+version = '1.0.0'
+
+java {
+	toolchain {
+		languageVersion = JavaLanguageVersion.of(17)
+	}
+}
+
+repositories {
+	mavenCentral()
+}
+
+dependencies {
+	implementation 'org.springframework.boot:spring-boot-starter-web'
+	implementation 'org.springframework.boot:spring-boot-starter-validation'
+	implementation 'org.springframework.boot:spring-boot-starter-data-jpa'
+	implementation('org.springframework.boot:spring-boot-starter-webflux')
+
+	implementation 'org.slf4j:slf4j-api'
+	implementation 'ch.qos.logback:logback-classic'
+
+	runtimeOnly 'com.h2database:h2'
+
+	testImplementation 'org.springframework.boot:spring-boot-starter-test'
+	testRuntimeOnly 'org.junit.platform:junit-platform-launcher'
+	testImplementation 'org.mockito:mockito-core'
+
+	// Swagger config
+	swaggerCodegen 'org.openapitools:openapi-generator-cli:7.3.0'
+	implementation 'io.swagger.core.v3:swagger-annotations:2.2.20'
+	implementation 'org.springdoc:springdoc-openapi-starter-webmvc-ui:2.3.0'
+}
+
+// Swagger config
+processResources {
+	dependsOn(generateSwaggerCode)
+}
+
+swaggerSources {
+	fx {
+		inputFile = file("${rootDir}/src/main/resources/api/fx.yaml")
+		code {
+			language = 'spring'
+			configFile = file("${rootDir}/src/main/resources/api/config.json")
+			components = [models: true, apis: true, supportingFiles: 'ApiUtil.java']
+			dependsOn validation
+		}
+	}
+}
+
+compileJava.dependsOn swaggerSources.fx.code
+sourceSets.main.java.srcDir "${swaggerSources.fx.code.outputDir}/src/main/java"
+sourceSets.main.resources.srcDir "${swaggerSources.fx.code.outputDir}/src/main/resources"
+// Swagger config
+
+tasks.named('test') {
+	useJUnitPlatform()
+}

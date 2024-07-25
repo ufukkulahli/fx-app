@@ -1,0 +1,20 @@
+{
+  "library": "spring-boot",
+  "dateLibrary": "java8",
+  "hideGenerationTimestamp": true,
+  "modelPackage": "com.openpayd.fx.api.model",
+  "apiPackage": "com.openpayd.fx.api",
+  "invokerPackage": "com.openpayd.fx.api",
+  "serializableModel": true,
+  "openApiNullable": false,
+  "useTags": true,
+  "useGzipFeature": true,
+  "hateoas": true,
+  "unhandledException": true,
+  "useSpringBoot3": true,
+  "useSwaggerUI": true,
+  "importMappings": {
+    "ResourceSupport": "org.springframework.hateoas.RepresentationModel",
+    "Link": "org.springframework.hateoas.Link"
+  }
+}
